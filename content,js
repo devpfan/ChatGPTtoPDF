@@ -1,0 +1,22 @@
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.action === 'convertToPDF') {
+    const chatContent = document.body.innerText;
+
+    // para crear un objeto Blob con el contenido del chat
+    const blob = new Blob([chatContent], { type: 'text/plain' });
+
+    // Crear un objeto URL del Blob
+    const blobURL = URL.createObjectURL(blob);
+
+    // Crea un enlace para descargar el archivo
+    const a = document.createElement('a');
+    a.href = blobURL;
+    a.download = 'ChatGPT_Chat.pdf';
+
+    // Simula un clic en el enlace para iniciar la descarga
+    a.click();
+
+    // Liberar el objeto URL
+    URL.revokeObjectURL(blobURL);
+  }
+});
